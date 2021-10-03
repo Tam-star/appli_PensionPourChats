@@ -6,7 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Transient;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.Type;
 
@@ -24,7 +25,8 @@ public class Chat {
 	private Date date_depart;
 	@Type(type = "text")
 	private String commentaires;
-	@Transient
+	@ManyToOne
+	@JoinColumn(name = "ID_PROPRIETAIRE")
 	private Proprietaire proprietaire;
 
 	/* GETTERS AND SETTERS */
