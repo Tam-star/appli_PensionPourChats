@@ -10,7 +10,11 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.tamstar.pensionchats.core.DataSourceProvider;
+import com.tamstar.pensionchats.core.HibernateUtil;
 import com.tamstar.pensionchats.core.entity.Chat;
 
 public class ChatRepositoryImpl {
@@ -40,7 +44,7 @@ public class ChatRepositoryImpl {
 
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
-				chat.setId(rs.getLong(1));
+				chat.setId(rs.getShort(1));
 			}
 
 			System.out.println("Chat créé");
@@ -62,47 +66,28 @@ public class ChatRepositoryImpl {
 
 	}
 
-	public Chat getById(Long id) {
+	public Chat getById(Short id) {
 
-		Connection conn = null;
 		Chat chat = null;
+		Transaction tx = null;
+		Session session = null;
 
 		try {
-			DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-			conn = dataSource.getConnection();
-
-			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM CHAT WHERE ID=?");
-			preparedStatement.setLong(1, id);
-
-			ResultSet rs = preparedStatement.executeQuery();
-
-			if (rs.next()) {
-				chat = new Chat();
-				chat.setId(id);
-				chat.setAge(rs.getInt("AGE"));
-				chat.setDate_arrivee(rs.getDate("DATE_ARRIVEE"));
-				chat.setDate_depart(rs.getDate("DATE_DEPART"));
-				chat.setNom(rs.getString("NOM"));
-				chat.setPelage(rs.getString("PELAGE"));
-				chat.setRace(rs.getString("RACE"));
-				chat.setSexe(rs.getString("SEXE").charAt(0));
-				ProprietaireRepositoryImpl proprietaireRepo = new ProprietaireRepositoryImpl();
-				chat.setProprietaire(proprietaireRepo.getById(rs.getLong("ID_PROPRIETAIRE")));
-			}
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			chat = session.get(Chat.class, id);
+			tx.commit();
 
 			System.out.println("Chat lu");
 
 		} catch (Exception e) {
 			e.printStackTrace();
+			if (tx != null)
+				tx.rollback();
 
 		} finally {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if (session != null) {
+				session.close();
 			}
 
 		}
@@ -124,8 +109,8 @@ public class ChatRepositoryImpl {
 
 			while (rs.next()) {
 				Chat chat = new Chat();
-				chat.setId(rs.getLong("ID"));
-				chat.setAge(rs.getInt("AGE"));
+				chat.setId(rs.getShort("ID"));
+				chat.setAge(rs.getByte("AGE"));
 				chat.setDate_arrivee(rs.getDate("DATE_ARRIVEE"));
 				chat.setDate_depart(rs.getDate("DATE_DEPART"));
 				chat.setNom(rs.getString("NOM"));
@@ -133,7 +118,7 @@ public class ChatRepositoryImpl {
 				chat.setRace(rs.getString("RACE"));
 				chat.setSexe(rs.getString("SEXE").charAt(0));
 				ProprietaireRepositoryImpl proprietaireRepo = new ProprietaireRepositoryImpl();
-				chat.setProprietaire(proprietaireRepo.getById(rs.getLong("ID_PROPRIETAIRE")));
+				chat.setProprietaire(proprietaireRepo.getById(rs.getShort("ID_PROPRIETAIRE")));
 				liste_chats.add(chat);
 			}
 

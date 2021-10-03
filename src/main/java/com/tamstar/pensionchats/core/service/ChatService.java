@@ -17,7 +17,7 @@ public class ChatService {
 		chatRepository.create(chat);
 	}
 
-	public Chat getChat(Long id) {
+	public Chat getChat(Short id) {
 		return chatRepository.getById(id);
 	}
 

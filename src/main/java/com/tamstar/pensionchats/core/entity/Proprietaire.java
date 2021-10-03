@@ -1,17 +1,25 @@
 package com.tamstar.pensionchats.core.entity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Proprietaire {
 
-	private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Short id;
 	private String nom;
 	private String prenom;
 	private String telephone;
 
-	public Long getId() {
+	public Short getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Short id) {
 		this.id = id;
 	}
 

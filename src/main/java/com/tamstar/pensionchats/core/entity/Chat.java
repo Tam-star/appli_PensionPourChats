@@ -2,26 +2,38 @@ package com.tamstar.pensionchats.core.entity;
 
 import java.sql.Date;
 
-public class Chat {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 
-	private Long id;
+import org.hibernate.annotations.Type;
+
+@Entity
+public class Chat {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Short id;
 	private String nom;
 	private Character sexe;
 	private String race;
 	private String pelage;
-	private Integer age;
+	private Byte age;
 	private Date date_arrivee;
 	private Date date_depart;
+	@Type(type = "text")
 	private String commentaires;
+	@Transient
 	private Proprietaire proprietaire;
 
 	/* GETTERS AND SETTERS */
 
-	public Long getId() {
+	public Short getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Short id) {
 		this.id = id;
 	}
 
@@ -57,11 +69,11 @@ public class Chat {
 		this.pelage = pelage;
 	}
 
-	public Integer getAge() {
+	public Byte getAge() {
 		return age;
 	}
 
-	public void setAge(Integer age) {
+	public void setAge(Byte age) {
 		this.age = age;
 	}
 

@@ -10,7 +10,11 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 import com.tamstar.pensionchats.core.DataSourceProvider;
+import com.tamstar.pensionchats.core.HibernateUtil;
 import com.tamstar.pensionchats.core.entity.Proprietaire;
 
 public class ProprietaireRepositoryImpl {
@@ -34,7 +38,7 @@ public class ProprietaireRepositoryImpl {
 
 			ResultSet rs = preparedStatement.getGeneratedKeys();
 			if (rs.next()) {
-				proprietaire.setId(rs.getLong(1));
+				proprietaire.setId(rs.getShort(1));
 			}
 
 			System.out.println("Propriétaire créé");
@@ -56,41 +60,28 @@ public class ProprietaireRepositoryImpl {
 
 	}
 
-	public Proprietaire getById(Long id) {
+	public Proprietaire getById(Short id) {
 
-		Connection conn = null;
 		Proprietaire proprietaire = null;
+		Transaction tx = null;
+		Session session = null;
 
 		try {
-			DataSource dataSource = DataSourceProvider.getSingleDataSourceInstance();
-			conn = dataSource.getConnection();
-
-			PreparedStatement preparedStatement = conn.prepareStatement("SELECT * FROM PROPRIETAIRE WHERE ID=?");
-			preparedStatement.setLong(1, id);
-
-			ResultSet rs = preparedStatement.executeQuery();
-
-			if (rs.next()) {
-				proprietaire = new Proprietaire();
-				proprietaire.setId(id);
-				proprietaire.setNom(rs.getString("NOM"));
-				proprietaire.setPrenom(rs.getString("PRENOM"));
-				proprietaire.setTelephone(rs.getString("TELEPHONE"));
-			}
-
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			proprietaire = session.get(Proprietaire.class, id);
+			tx.commit();
 			System.out.println("Propriétaire lu");
 
-		} catch (Exception e) {
-			e.printStackTrace();
+		} catch (Throwable t) {
+			t.printStackTrace();
+			if (tx != null)
+				tx.rollback();
 
 		} finally {
-			if (conn != null) {
-				try {
-					conn.close();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+			if (session != null) {
+				session.close();
+
 			}
 
 		}
@@ -112,7 +103,7 @@ public class ProprietaireRepositoryImpl {
 
 			while (rs.next()) {
 				Proprietaire proprietaire = new Proprietaire();
-				proprietaire.setId(rs.getLong("ID"));
+				proprietaire.setId(rs.getShort("ID"));
 				proprietaire.setNom(rs.getString("NOM"));
 				proprietaire.setPrenom(rs.getString("PRENOM"));
 				proprietaire.setTelephone(rs.getString("TELEPHONE"));

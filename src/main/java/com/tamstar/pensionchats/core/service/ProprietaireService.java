@@ -17,7 +17,7 @@ public class ProprietaireService {
 		proprietaireRepository.create(proprietaire);
 	}
 
-	public Proprietaire getProprietaire(Long id) {
+	public Proprietaire getProprietaire(Short id) {
 		return proprietaireRepository.getById(id);
 	}
 
