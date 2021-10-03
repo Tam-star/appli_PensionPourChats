@@ -13,7 +13,7 @@ public class Chat {
 	private Date date_arrivee;
 	private Date date_depart;
 	private String commentaires;
-	private Long id_proprietaire;
+	private Proprietaire proprietaire;
 
 	/* GETTERS AND SETTERS */
 
@@ -81,12 +81,12 @@ public class Chat {
 		this.date_depart = date_depart;
 	}
 
-	public Long getId_proprietaire() {
-		return id_proprietaire;
+	public Proprietaire getProprietaire() {
+		return proprietaire;
 	}
 
-	public void setId_proprietaire(Long id_proprietaire) {
-		this.id_proprietaire = id_proprietaire;
+	public void setProprietaire(Proprietaire proprietaire) {
+		this.proprietaire = proprietaire;
 	}
 
 	public String getCommentaires() {

@@ -34,7 +34,7 @@ public class ChatRepositoryImpl {
 			preparedStatement.setDate(6, chat.getDate_arrivee());
 			preparedStatement.setDate(7, chat.getDate_depart());
 			preparedStatement.setString(8, chat.getCommentaires());
-			preparedStatement.setLong(9, chat.getId_proprietaire());
+			preparedStatement.setLong(9, chat.getProprietaire().getId());
 
 			preparedStatement.executeUpdate();
 
@@ -86,7 +86,8 @@ public class ChatRepositoryImpl {
 				chat.setPelage(rs.getString("PELAGE"));
 				chat.setRace(rs.getString("RACE"));
 				chat.setSexe(rs.getString("SEXE").charAt(0));
-				chat.setId_proprietaire(rs.getLong("ID_PROPRIETAIRE"));
+				ProprietaireRepositoryImpl proprietaireRepo = new ProprietaireRepositoryImpl();
+				chat.setProprietaire(proprietaireRepo.getById(rs.getLong("ID_PROPRIETAIRE")));
 			}
 
 			System.out.println("Chat lu");
@@ -131,7 +132,8 @@ public class ChatRepositoryImpl {
 				chat.setPelage(rs.getString("PELAGE"));
 				chat.setRace(rs.getString("RACE"));
 				chat.setSexe(rs.getString("SEXE").charAt(0));
-				chat.setId_proprietaire(rs.getLong("ID_PROPRIETAIRE"));
+				ProprietaireRepositoryImpl proprietaireRepo = new ProprietaireRepositoryImpl();
+				chat.setProprietaire(proprietaireRepo.getById(rs.getLong("ID_PROPRIETAIRE")));
 				liste_chats.add(chat);
 			}
 
