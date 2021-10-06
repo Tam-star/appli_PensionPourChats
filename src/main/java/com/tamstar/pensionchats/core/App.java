@@ -1,15 +1,11 @@
 package com.tamstar.pensionchats.core;
 
-import com.tamstar.pensionchats.core.service.ChatService;
-import com.tamstar.pensionchats.core.service.ProprietaireService;
-import com.tamstar.pensionchats.ui.Fenetre;
+import com.tamstar.pensionchats.ui.UI;
 
 public class App {
 	public static void main(String[] args) {
 
-		ChatService chatService = new ChatService();
-		ProprietaireService proprietaireService = new ProprietaireService();
+		UI fen = new UI();
 
-		Fenetre fen = new Fenetre();
 	}
 }

@@ -1,5 +1,6 @@
 package com.tamstar.pensionchats.core.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -59,8 +60,55 @@ public class ChatService {
 		return chat;
 	}
 
+	public Chat getChat(String nom) {
+
+		Session session = null;
+		Transaction tx = null;
+		Chat chat = null;
+		List<Chat> liste_chats = new ArrayList<>();
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			liste_chats = chatRepository.getAllCats();
+			for (int i = 0; i < liste_chats.size(); i++) {
+				Chat chatListe = liste_chats.get(i);
+				if (chatListe.getNom().equals(nom)) {
+					chat = liste_chats.get(i);
+				}
+			}
+			tx.commit();
+		} catch (Throwable t) {
+			t.printStackTrace();
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+
+		return chat;
+	}
+
 	public List<Chat> getListChats() {
-		return chatRepository.getAllCats();
+		Session session = null;
+		Transaction tx = null;
+		List<Chat> liste_chats = new ArrayList<>();
+		try {
+			session = HibernateUtil.getSessionFactory().getCurrentSession();
+			tx = session.beginTransaction();
+			liste_chats = chatRepository.getAllCats();
+			tx.commit();
+		} catch (Throwable t) {
+			t.printStackTrace();
+			if (tx != null)
+				tx.rollback();
+		} finally {
+			if (session != null) {
+				session.close();
+			}
+		}
+		return liste_chats;
 	}
 
 	public void supprimerChat(Short id) {
