@@ -13,6 +13,9 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
@@ -45,6 +48,25 @@ public class UI extends JFrame {
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+		// MENU
+		JMenu menu, sous_menu;
+		JMenuItem i1, i2, i3, i4;
+		JMenuBar mb = new JMenuBar();
+		menu = new JMenu("Menu");
+		sous_menu = new JMenu("Nouveau Chat");
+		i1 = new JMenuItem("Nouveau Propriétaire");
+		i2 = new JMenuItem("Propriétaire déjà enregistré");
+		i3 = new JMenuItem("Description des chats");
+		i4 = new JMenuItem("Départ d'un chat");
+		sous_menu.add(i1);
+		sous_menu.add(i2);
+		menu.add(sous_menu);
+		menu.add(i3);
+		menu.add(i4);
+		mb.add(menu);
+		this.setJMenuBar(mb);
+
+		// ROOT PANEL
 		root_container = new JPanel();
 		root_container.setLayout(new GridLayout(1, 2));
 
