@@ -22,23 +22,23 @@ import com.tamstar.pensionchats.controller.ProprietaireController;
 
 public class DescriptionChatPanel extends JPanel {
 
-	JPanel pan_left;
-	JPanel pan_right;
-	JPanel pan_right_up;
-	JPanel pan_center_information_chat;
-	JPanel pan_right_down;
-	JPanel pan_center_information_proprietaire;
+	private JPanel pan_left;
+	private JPanel pan_right;
+	private JPanel pan_right_up;
+	private JPanel pan_center_information_chat;
+	private JPanel pan_right_down;
+	private JPanel pan_center_information_proprietaire;
 
-	JLabel title_chat;
-	JLabel title_proprietaire;
+	private JLabel title_chat;
+	private JLabel title_proprietaire;
 
-	List<String> liste_noms_chats;
-	String[] tab_information_chat = { "Sexe : ", "Race : ", "Pelage : ", "Age : ", "Date d'arrivée : ",
+	private List<String> liste_noms_chats;
+	private String[] tab_information_chat = { "Sexe : ", "Race : ", "Pelage : ", "Age : ", "Date d'arrivée : ",
 			"Date de départ : ", "Commentaires : " };
-	String[] tab_information_proprietaire = { "Nom : ", "Prénom : ", "Téléphone : " };
+	private String[] tab_information_proprietaire = { "Nom : ", "Prénom : ", "Téléphone : " };
 
-	ChatController chatController = new ChatController();
-	ProprietaireController proprietaireController = new ProprietaireController();
+	private ChatController chatController = new ChatController();
+	private ProprietaireController proprietaireController = new ProprietaireController();
 
 	public DescriptionChatPanel() {
 

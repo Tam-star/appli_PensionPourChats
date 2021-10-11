@@ -17,7 +17,6 @@ public class UI extends JFrame {
 	JPanel content = new JPanel();
 	// Liste des noms de conteneurs pour le CardLayout
 	String[] listContent = { "NOUVEAU_PROPRIETAIRE", "PROPRIETAIRE_CONNU", "DESCRIPTION_CHAT", "DEPART_CHAT" };
-	int indice = 0;
 
 	public UI() {
 		this.setTitle("Gestion des chats");
@@ -27,8 +26,7 @@ public class UI extends JFrame {
 		this.setContentPane(content);
 
 		// On crée les conteneurs différents pour le menu
-		JPanel nouveauChatAvecNouveauProprio = new JPanel();
-		nouveauChatAvecNouveauProprio.add(new JLabel("Propriétaire non connu"));
+		NewCatNewOwnerPanel nouveauChatAvecNouveauProprio = new NewCatNewOwnerPanel();
 		JPanel nouveauChatProprioConnu = new JPanel();
 		nouveauChatProprioConnu.add(new JLabel("Propriétaire du chat connu"));
 		DescriptionChatPanel panelDescription = new DescriptionChatPanel();
