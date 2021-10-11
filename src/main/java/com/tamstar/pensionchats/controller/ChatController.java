@@ -25,6 +25,12 @@ public class ChatController {
 
 	}
 
+	public Short retourneIdChat(String nom) {
+		Chat chat = chatService.getChat(nom);
+		Short id = chat.getId();
+		return id;
+	}
+
 	public String[] afficherInfoChat(String[] infos, String nom) {
 
 		Chat chat = chatService.getChat(nom);

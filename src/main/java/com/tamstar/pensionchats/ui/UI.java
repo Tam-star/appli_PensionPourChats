@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.MatteBorder;
 
 import com.tamstar.pensionchats.controller.ChatController;
+import com.tamstar.pensionchats.controller.ProprietaireController;
 
 public class UI extends JFrame {
 
@@ -39,8 +40,10 @@ public class UI extends JFrame {
 	List<String> liste_noms_chats;
 	String[] tab_information_chat = { "Sexe : ", "Race : ", "Pelage : ", "Age : ", "Date d'arrivée : ",
 			"Date de départ : ", "Commentaires : " };
+	String[] tab_information_proprietaire = { "Nom : ", "Prénom : ", "Téléphone : " };
 
 	ChatController chatController = new ChatController();
+	ProprietaireController proprietaireController = new ProprietaireController();
 
 	public UI() {
 		this.setTitle("Gestion des chats");
@@ -95,6 +98,23 @@ public class UI extends JFrame {
 
 		pan_right_up.add(pan_center_information_chat, BorderLayout.CENTER);
 
+		// INFORMATION PROPRIETAIRE PANEL
+		pan_right_down = new JPanel();
+		pan_right_down.setLayout(new BorderLayout());
+		title_proprietaire = new JLabel("PROPRIETAIRE", JLabel.CENTER);
+		title_proprietaire.setFont(new Font("Helvetica", Font.PLAIN, 20));
+		title_proprietaire.setPreferredSize(new Dimension(50, 50));
+		pan_right_down.add(title_proprietaire, BorderLayout.NORTH);
+
+		pan_center_information_proprietaire = new JPanel();
+		pan_center_information_proprietaire.setLayout(new GridLayout(3, 1));
+		pan_center_information_proprietaire.setBorder(new EmptyBorder(15, 15, 15, 15));
+
+		for (int i = 0; i < tab_information_proprietaire.length; i++) {
+			pan_center_information_proprietaire.add(new JLabel(tab_information_proprietaire[i]));
+		}
+		pan_right_down.add(pan_center_information_proprietaire, BorderLayout.CENTER);
+
 		// LISTE DES CHATS
 		pan_left = new JPanel();
 		pan_left.setLayout(new GridLayout(10, 1));
@@ -108,34 +128,23 @@ public class UI extends JFrame {
 				public void mousePressed(MouseEvent e) {
 					String nom = label.getText();
 					title_chat.setText(nom.toUpperCase());
-					// affiche le reste des infos du chat
+					// Actualisation des infos du chat
 					tab_information_chat = chatController.afficherInfoChat(tab_information_chat, nom);
 					pan_center_information_chat.removeAll();
 					for (int i = 0; i < tab_information_chat.length; i++) {
 						pan_center_information_chat.add(new JLabel(tab_information_chat[i]));
 					}
+					// Actualisation des infos du proprietaire du chat
+					tab_information_proprietaire = proprietaireController
+							.afficherInfoProprietaireDuChat(tab_information_proprietaire, nom);
+					pan_center_information_proprietaire.removeAll();
+					for (int i = 0; i < tab_information_proprietaire.length; i++) {
+						pan_center_information_proprietaire.add(new JLabel(tab_information_proprietaire[i]));
+					}
 				}
 			});
 			pan_left.add(label);
 		}
-
-		// INFORMATION PROPRIETAIRE PANEL
-		pan_right_down = new JPanel();
-		pan_right_down.setLayout(new BorderLayout());
-		title_proprietaire = new JLabel("PROPRIETAIRE", JLabel.CENTER);
-		title_proprietaire.setFont(new Font("Helvetica", Font.PLAIN, 20));
-		title_proprietaire.setPreferredSize(new Dimension(50, 50));
-		pan_right_down.add(title_proprietaire, BorderLayout.NORTH);
-
-		pan_center_information_proprietaire = new JPanel();
-		pan_center_information_proprietaire.setLayout(new GridLayout(3, 1));
-		pan_center_information_proprietaire.setBorder(new EmptyBorder(15, 15, 15, 15));
-
-		String[] tab_information_proprietaire = { "Nom : ", "Prénom : ", "Téléphone : " };
-		for (int i = 0; i < tab_information_proprietaire.length; i++) {
-			pan_center_information_proprietaire.add(new JLabel(tab_information_proprietaire[i]));
-		}
-		pan_right_down.add(pan_center_information_proprietaire, BorderLayout.CENTER);
 
 		pan_right.add(pan_right_up);
 		pan_right.add(pan_right_down);
